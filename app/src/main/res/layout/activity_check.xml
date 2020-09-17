@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bac"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/iv_close_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_left_24dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:text="帮助"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_main"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ima_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout8"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="向手机号"
+            android:textSize="12sp"
+            android:textColor="@color/text_main1"/>
+        <TextView
+            android:id="@+id/tv_phone_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="12345678910"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_main"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="发送了一条验证码"
+            android:textSize="12sp"
+            android:textColor="@color/text_main1"/>
+        <ImageView
+            android:id="@+id/iv_up_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_edit_24dp"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.1">
+
+        <com.xuexiang.xui.widget.edittext.verify.VerifyCodeEditText
+            android:id="@+id/et_code_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:vcet_is_pwd="false"
+            app:vcet_number="6"
+            app:vcet_pwd_radius="10dp"
+            app:vcet_text_color="@color/text_black"
+            app:vcet_text_size="24sp"
+            app:vcet_width="50dp" />
+    </RelativeLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_send_check"
+        android:enabled="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:padding="10dp"
+        android:text="59s"
+        android:textColor="@color/main_bac"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:backgroundTint="@color/text_main1"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout9"
+        app:layout_constraintVertical_bias="0.1" />
+</androidx.constraintlayout.widget.ConstraintLayout>
