@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="takeAddress"
+            type="com.example.runerrands.model.bean.AddressInfo" />
+
+        <variable
+            name="collectAddress"
+            type="com.example.runerrands.model.bean.AddressInfo" />
+
+        <variable
+            name="TakeActivity"
+            type="com.example.runerrands.ui.activity.TakeActivity" />
+
+        <variable
+            name="str"
+            type="String" />
+
+        <import type="android.text.TextUtils" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_white">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/main_white"
+            app:cardCornerRadius="10dp"
+            app:contentPadding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_take"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->TakeActivity.startActivity(1)}">
+
+                    <TextView
+                        android:id="@+id/tv_take"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/shape_whole_main_5dp"
+                        android:padding="3dp"
+                        android:text="取"
+                        android:textColor="@color/main_white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_take_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/tv_take"
+                        android:hint="从哪里取"
+                        android:padding="3dp"
+                        android:text="@{takeAddress.address}"
+                        android:textColor="@color/text_main"
+                        android:textColorHint="@color/text_main"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_take_address"
+                        android:layout_alignLeft="@+id/tv_take_address"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_take_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="联系人"
+                            android:padding="3dp"
+                            android:text="@{TextUtils.isEmpty(takeAddress.name)?str:takeAddress.name + takeAddress.sex}"
+                            android:textColor="@color/text_main1"
+                            android:textColorHint="@color/text_main1"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_take_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:hint="手机号"
+                            android:padding="3dp"
+                            android:text="@{takeAddress.phone}"
+                            android:textColor="@color/text_main1"
+                            android:textColorHint="@color/text_main1"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/ic_edit_24dp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/color_link" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_collect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->TakeActivity.startActivity(2)}">
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/shape_whole_yellow_5dp"
+                        android:padding="3dp"
+                        android:text="送"
+                        android:textColor="@color/main_white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_collect_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/tv_address"
+                        android:hint="送哪里去"
+                        android:padding="3dp"
+                        android:text="@{collectAddress.address}"
+                        android:textColor="@color/text_main"
+                        android:textColorHint="@color/text_main"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_collect_address"
+                        android:layout_alignLeft="@+id/tv_collect_address"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_collect_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="联系人"
+                            android:padding="3dp"
+                            android:text="@{TextUtils.isEmpty(collectAddress.name)?str:collectAddress.name + collectAddress.sex}"
+                            android:textColor="@color/text_main1"
+                            android:textColorHint="@color/text_main1"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_collect_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:hint="手机号"
+                            android:padding="3dp"
+                            android:text="@{collectAddress.phone}"
+                            android:textColor="@color/text_main1"
+                            android:textColorHint="@color/text_main1"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/ic_box_24dp" />
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/main_white"
+            app:cardCornerRadius="15dp"
+            app:contentPadding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="物品信息"
+                        android:textColor="@color/text_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_right_main1_16dp"
+                        android:gravity="center_vertical|end"
+                        android:hint="物品类型、重量"
+                        android:onClick="@{()->TakeActivity.showBottomDialog()}"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/text_main1"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/color_link" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="备注"
+                        android:textColor="@color/text_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_info_take"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_right_main1_16dp"
+                        android:ellipsize="middle"
+                        android:gravity="center_vertical|end"
+                        android:onClick="@{()->TakeActivity.startActivity(3)}"
+                        android:hint="物品描述、送件要求等"
+                        android:singleLine="true"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/text_main1"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/color_link" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="红包"
+                        android:textColor="@color/text_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_right_main1_16dp"
+                        android:gravity="center_vertical|end"
+                        android:hint="暂无可用红包"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/text_main1"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/main_white"
+            android:paddingStart="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardview"
+            app:layout_constraintVertical_bias="0.0">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_money_nei_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="费用￥"
+                    android:textColor="@color/text_main"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/tv_money_take"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:hint="0"
+                    android:textColor="@color/main_money"
+                    android:textColorHint="@color/main_money"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_dist_take"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="两公里最快半小时内送达"
+                android:textColor="@color/text_main"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_ok_take"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/shape_top_yellow_10dp"
+                android:gravity="center"
+                android:onClick="@{()->TakeActivity.commit()}"
+                android:text="提交订单"
+                android:textColor="@color/main_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+
