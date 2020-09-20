@@ -2,17 +2,21 @@ package com.example.runerrands.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.BaiduMap
-import com.baidu.mapapi.map.MapStatusUpdate
 import com.baidu.mapapi.map.MapStatusUpdateFactory
 import com.baidu.mapapi.map.MyLocationData
 import com.baidu.mapapi.model.LatLng
 import com.example.runerrands.R
 import com.example.runerrands.base.BaseActivity
+import com.example.runerrands.databinding.ActivityTakeBinding
+import com.example.runerrands.room.bean.Address
+import com.example.runerrands.model.bean.LiveDataBus
 import kotlinx.android.synthetic.main.activity_take.*
 
 /**
@@ -21,14 +25,24 @@ import kotlinx.android.synthetic.main.activity_take.*
 class TakeActivity: BaseActivity() {
     private var mBaiduMap: BaiduMap? = null
     private lateinit var mLocationClient: LocationClient
-    var isFirst: Boolean = true
+    private var isFirst: Boolean = true
+    private lateinit var mBinding: ActivityTakeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_take)
+        init()
     }
-    override fun initView() {
 
+    private fun init() {
+        initView()
+        initDate()
+        initEvent()
+        initPresenter()
+    }
+
+    override fun initView() {
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_take)
     }
 
     override fun initDate() {
@@ -97,7 +111,7 @@ class TakeActivity: BaseActivity() {
 
 
     override fun initEvent() {
-
+        LiveDataBus.get().with("TakeActivity").observerSticky(this,TakeActivityObserver(),true)
     }
 
     override fun onResume() {
@@ -116,5 +130,17 @@ class TakeActivity: BaseActivity() {
         mLocationClient.stop()
         mBaiduMap?.isMyLocationEnabled = false
         mBaiduMap = null//防止内存泄漏
+    }
+
+    private inner class TakeActivityObserver: Observer<Address> {
+        override fun onChanged(address: Address) {
+            if (address.type == 1){
+                mBinding.include.takeAddress = address
+            }else{
+                mBinding.include.collectAddress = address
+            }
+
+        }
+
     }
 }

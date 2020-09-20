@@ -1,6 +1,7 @@
 package com.example.runerrands.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,6 +26,7 @@ import com.example.runerrands.memo.BDManager
 import com.example.runerrands.model.bean.LiveDataBus
 import com.example.runerrands.model.bean.SelectInfo
 import com.example.runerrands.ui.adapter.SelectRecyclerAdapter
+import kotlinx.android.synthetic.main.activity_select.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -36,6 +38,7 @@ class SelectActivity: BaseActivity() {
     private lateinit var mRvAdapter: SelectRecyclerAdapter
     private lateinit var mInputMethodManager: InputMethodManager
     private lateinit var address: String
+    private val mIntent: Intent = Intent()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +73,8 @@ class SelectActivity: BaseActivity() {
         }
 
         //模拟数据
-        val latLng = LatLng(38.9433671045255,117.36299499999993)
+        //val latLng = LatLng(30.567704085501845,1.0420501721490881E8)
+        val latLng = LatLng(38.9944021056743,117.3787889999993)
         mBaiduMap.apply {
             setMapStatus(MapStatusUpdateFactory.newLatLng(latLng))
             animateMapStatus(MapStatusUpdateFactory.zoomTo(18f))
@@ -78,6 +82,10 @@ class SelectActivity: BaseActivity() {
     }
 
     override fun initEvent() {
+        mBinding.ivCloseSelect.setOnClickListener {
+            mBinding.etContentSelect.setText("")
+            gone()
+        }
         //监听搜索框的输入
         mBinding.etContentSelect.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -91,6 +99,7 @@ class SelectActivity: BaseActivity() {
                     mBdManager.startPoi(s.toString())
                     //设置RV可见
                     mBinding.recSelect.visibility = View.VISIBLE
+                    mBinding.ivCloseSelect.visibility = View.VISIBLE
                 }else{
                     gone()
                 }
@@ -105,9 +114,11 @@ class SelectActivity: BaseActivity() {
             override fun resultLoaded(list: MutableList<SelectInfo>) {
                 //将搜索出来的结果给适配器使用
                 mRvAdapter.setData(list)
+                mBinding.recSelect.removeAllViews()
             }
 
         })
+        //地图位置改变时监听
         mBaiduMap.setOnMapStatusChangeListener(object : BaiduMap.OnMapStatusChangeListener {
             override fun onMapStatusChangeStart(p0: MapStatus?) {
 
@@ -130,8 +141,8 @@ class SelectActivity: BaseActivity() {
                     mBdManager.setLatLng(mLatLng)
                 }
                 mBinding.apply {
-                    tvLatitudeSelect.text = mLatLng.latitude.toString()
-                    tvLongitudeSelect.text = mLatLng.longitudeE6.toString()
+                    tvLatitudeSelect.text = "精度 ${mLatLng.latitude}"
+                    tvLongitudeSelect.text = "维度 ${mLatLng.longitudeE6}"
                 }
                 gone()
             }
@@ -149,18 +160,19 @@ class SelectActivity: BaseActivity() {
                 }else{
                     //将地址设置到view显示
                     mBinding.tvAddressSelect.text = reverseGeoCodeResult.address
+                    Log.e("SelectActivity","地址: ==> ${ reverseGeoCodeResult.address}")
                     address = reverseGeoCodeResult.address
                 }
             }
 
         })
 
-        mRvAdapter.mListener = object : SelectRecyclerAdapter.OnItemClickListener{
+        mRvAdapter.setOnItemClickListener(object : SelectRecyclerAdapter.OnItemClickListener{
             override fun onClick(selectInfo: SelectInfo) {
                 mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(mLatLng))
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.zoomTo(18f))//缩放
             }
-        }
+        })
     }
 
     fun hideBehavior(){
@@ -186,8 +198,10 @@ class SelectActivity: BaseActivity() {
         val hashMap = HashMap<String, Any>()
         hashMap["address"] = address
         hashMap["latLng"] = mLatLng
-        //把数据传到EditActivity去
+        //把数据传到EditActivity去，使用LiveDataBus
         LiveDataBus.get().with("EditActivity").setStickyData(hashMap)
+        mIntent.setClass(this,EditActivity::class.java)
+        startActivity(mIntent)
         finish()
     }
 

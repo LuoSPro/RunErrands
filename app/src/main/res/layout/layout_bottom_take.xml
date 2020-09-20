@@ -6,11 +6,11 @@
 
         <variable
             name="takeAddress"
-            type="com.example.runerrands.model.bean.AddressInfo" />
+            type="com.example.runerrands.room.bean.Address" />
 
         <variable
             name="collectAddress"
-            type="com.example.runerrands.model.bean.AddressInfo" />
+            type="com.example.runerrands.room.bean.Address" />
 
         <variable
             name="TakeActivity"

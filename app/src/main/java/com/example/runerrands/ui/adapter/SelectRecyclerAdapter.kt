@@ -13,7 +13,7 @@ class SelectRecyclerAdapter: RecyclerView.Adapter<SelectRecyclerAdapter.ViewHold
     private val mData: MutableList<SelectInfo> = mutableListOf()
     lateinit var mListener: OnItemClickListener
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val tvAddress = itemView.findViewById<TextView>(R.id.tv_address_search_select)
         val tvCity = itemView.findViewById<TextView>(R.id.tv_city_search_select)
     }
@@ -37,6 +37,10 @@ class SelectRecyclerAdapter: RecyclerView.Adapter<SelectRecyclerAdapter.ViewHold
         mData.clear()
         mData.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        this.mListener = listener
     }
 
     interface OnItemClickListener{

@@ -30,13 +30,15 @@ class BDManager() {
     fun setOnResultListener(onResultListener: OnResultListener){
         this.onResultListener = onResultListener
         val onGetSuggestionResultListener = OnGetSuggestionResultListener {
+            //每次搜索前清空一下，不然下次搜索的时候会保留上次的记录
+            mList.clear()
             val allSuggestions = it.allSuggestions
-            if (allSuggestions.size > 0){
+            if (allSuggestions != null && allSuggestions.size > 0){
                 for (suggestion in allSuggestions) {
                     val selectInfo = SelectInfo(suggestion.key,suggestion.city+suggestion.district)
                     suggestion.pt?.let {
-                        selectInfo.latitude = it.latitude
-                        selectInfo.longitude = it.longitude
+                        selectInfo.latitude = it?.latitude
+                        selectInfo.longitude = it?.longitude
                     }
                     mList.add(selectInfo)
                 }
