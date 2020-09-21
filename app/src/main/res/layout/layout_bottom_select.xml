@@ -231,7 +231,6 @@
                 android:textColor="@color/main_bac"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:onClick="@{()->SelectActivity.addAddress()}"
                 android:theme="@style/Theme.MaterialComponents.Light"
                 app:cornerRadius="10dp"
                 app:backgroundTint="@color/main_blue" />

@@ -19,12 +19,8 @@ class BDManager() {
     private lateinit var onResultListener: OnResultListener
     private val mList: MutableList<SelectInfo> = mutableListOf()
 
-    fun start(){
-
-    }
-
     fun startPoi(key: String){
-        suggestionSearch.requestSuggestion(suggestionSearChOption.citylimit(true).city("成都").keyword(key))
+        suggestionSearch.requestSuggestion(suggestionSearChOption.citylimit(true).city("天津").keyword(key))
     }
 
     fun setOnResultListener(onResultListener: OnResultListener){
@@ -37,8 +33,8 @@ class BDManager() {
                 for (suggestion in allSuggestions) {
                     val selectInfo = SelectInfo(suggestion.key,suggestion.city+suggestion.district)
                     suggestion.pt?.let {
-                        selectInfo.latitude = it?.latitude
-                        selectInfo.longitude = it?.longitude
+                        selectInfo.latitude = it.latitude
+                        selectInfo.longitude = it.longitude
                     }
                     mList.add(selectInfo)
                 }

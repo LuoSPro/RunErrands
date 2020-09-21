@@ -19,8 +19,9 @@ import kotlin.collections.HashMap
 class EditActivity: BaseActivity() {
     private lateinit var mBinding: ActivityEditBinding
     private val mIntent = Intent()
-    private var mSex: String = "男"
+    private var mSex: String = "男士"
     private lateinit var mLatLng: LatLng
+    private var type: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,26 +36,32 @@ class EditActivity: BaseActivity() {
         initEvent()
     }
 
-    fun startActivity(){
+    private fun startActivity(){
         mIntent.setClass(this,SelectActivity::class.java)
+        mIntent.putExtra("type",type)
         startActivity(mIntent)
     }
 
-    fun complete(){
+    private fun complete(){
         val selectAddress = et_select_edit.text.toString()
         val detailAddress = et_address_edit.text.toString()
         val contact = et_name_edit.text.toString()
         val phone = et_phone_edit.text.toString()
         if (TextUtils.isEmpty(selectAddress)){
             XToast.warning(this,"请选择地址").show()
+            return
         }else if (TextUtils.isEmpty(detailAddress)){
             XToast.warning(this,"详细地址为空").show()
+            return
         }else if (TextUtils.isEmpty(contact)){
             XToast.warning(this,"联系人为空").show()
+            return
         }else if (TextUtils.isEmpty(phone)){
             XToast.warning(this,"手机号为空").show()
+            return
         }else if (!box_man_edit.isChecked && !box_miss_edit.isChecked){
             XToast.warning(this,"性别为空").show()
+            return
         }
         val address = Address(1,selectAddress+detailAddress,contact,phone,mSex,mLatLng.latitude,mLatLng.longitude)
         LiveDataBus.get().with("TakeActivity").setStickyData(address)
@@ -73,17 +80,24 @@ class EditActivity: BaseActivity() {
         LiveDataBus.get().with("EditActivity").observerSticky(this,EditActivityObserver(),true)
         box_man_edit.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
-                mSex = "男"
-                box_man_edit.isChecked = false
-                box_miss_edit.isChecked = true
+                mSex = "先生"
+                box_miss_edit.isChecked = false
             }
         }
         box_miss_edit.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked){
-                mSex = "女"
-                box_man_edit.isChecked = true
-                box_miss_edit.isChecked = false
+                mSex = "女士"
+                box_man_edit.isChecked = false
             }
+        }
+        btn_edit.setOnClickListener {
+            complete()
+        }
+        et_select_edit.setOnClickListener {
+            startActivity()
+        }
+        iv_close_edit.setOnClickListener {
+            finish()
         }
     }
 

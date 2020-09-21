@@ -29,7 +29,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".ui.activity.SelectActivity">
+        <activity android:name=".ui.activity.TakeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,9 +40,10 @@
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".ui.activity.HomeActivity"/>
-        <activity android:name=".ui.activity.TakeActivity"/>
+        <activity android:name=".ui.activity.SelectActivity"/>
         <activity android:name=".ui.activity.StartActivity"/>
         <activity android:name=".ui.activity.EditActivity"/>
+        <activity android:name=".ui.activity.AddressActivity"/>
 
         <!--百度定位服务-->
         <service

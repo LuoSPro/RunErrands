@@ -129,8 +129,7 @@
                 <RelativeLayout
                     android:id="@+id/rl_collect"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{()->TakeActivity.startActivity(2)}">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_address"

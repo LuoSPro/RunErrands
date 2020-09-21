@@ -9,4 +9,13 @@ data class Address(var type: Int, var address: String, val name: String, val pho
 
     @PrimaryKey(autoGenerate = true)
     private var id: Int = 0
+
+    //必须得有setter和getter
+    fun setId(id: Int){
+        this.id = id
+    }
+
+    fun getId(): Int{
+        return id
+    }
 }

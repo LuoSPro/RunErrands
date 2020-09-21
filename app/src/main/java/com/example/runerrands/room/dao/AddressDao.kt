@@ -17,5 +17,5 @@ interface AddressDao {
     fun deleteAddress(vararg address: Address)
 
     @Query("SELECT * FROM Address ORDER BY ID DESC")
-    fun getAllAddress(): LiveData<Address>
+    fun getAllAddress(): LiveData<List<Address>>
 }

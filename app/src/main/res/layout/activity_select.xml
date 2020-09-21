@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="SelectActivity"
             type="com.example.runerrands.ui.activity.SelectActivity" />
@@ -130,10 +129,10 @@
                     android:textColor="@color/text_main1"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_selected"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:onClick="@{()->SelectActivity.complete()}"
                     android:padding="15dp"
                     android:text="选择这里"
                     android:textColor="@color/text_main"
@@ -167,7 +166,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:visibility="gone"
             android:id="@+id/nes_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

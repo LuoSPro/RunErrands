@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -25,8 +26,13 @@ import com.example.runerrands.databinding.ActivitySelectBinding
 import com.example.runerrands.memo.BDManager
 import com.example.runerrands.model.bean.LiveDataBus
 import com.example.runerrands.model.bean.SelectInfo
+import com.example.runerrands.room.bean.Address
+import com.example.runerrands.room.viewmodel.AddressViewModel
 import com.example.runerrands.ui.adapter.SelectRecyclerAdapter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.xuexiang.xui.widget.toast.XToast
 import kotlinx.android.synthetic.main.activity_select.*
+import kotlinx.android.synthetic.main.layout_bottom_select.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -39,6 +45,8 @@ class SelectActivity: BaseActivity() {
     private lateinit var mInputMethodManager: InputMethodManager
     private lateinit var address: String
     private val mIntent: Intent = Intent()
+    private var type: Int = 2
+    private lateinit var behavior: BottomSheetBehavior<View>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,9 +71,17 @@ class SelectActivity: BaseActivity() {
         mBinding.selectActivity = this
         //拖动地图会返回给你经纬度
         mBaiduMap.isMyLocationEnabled = true
+
+        behavior = BottomSheetBehavior.from(nes_select)
+        behavior.apply {
+            isHideable = true
+            behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
     }
 
     override fun initDate() {
+        type = intent.getIntExtra("type",0)
         //适配器数据初始化
         mBinding.recSelect.apply {
             layoutManager = LinearLayoutManager(this@SelectActivity,LinearLayoutManager.VERTICAL,false)
@@ -82,6 +98,12 @@ class SelectActivity: BaseActivity() {
     }
 
     override fun initEvent() {
+        btn_selected.setOnClickListener {
+            complete()
+        }
+        btn_ok_bottom_select.setOnClickListener {
+            addAddress()
+        }
         mBinding.ivCloseSelect.setOnClickListener {
             mBinding.etContentSelect.setText("")
             gone()
@@ -164,23 +186,48 @@ class SelectActivity: BaseActivity() {
                     address = reverseGeoCodeResult.address
                 }
             }
-
         })
 
         mRvAdapter.setOnItemClickListener(object : SelectRecyclerAdapter.OnItemClickListener{
             override fun onClick(selectInfo: SelectInfo) {
-                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(mLatLng))
+                val selectLL = LatLng(selectInfo.latitude,selectInfo.longitude)
+                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(selectLL))
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.zoomTo(18f))//缩放
+                gone()
             }
         })
     }
 
     fun hideBehavior(){
-
+        if (behavior.state != BottomSheetBehavior.STATE_HIDDEN){
+            behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
     }
 
-    fun addAddress(){
-
+    private fun addAddress(){
+        //提取数据
+        val selectAddress = mBinding.include.etAddressBottomSelect.text.toString()
+        val contact = mBinding.include.etNameBottomSelect.text.toString()
+        val phone = mBinding.include.etPhoneBottomSelect.text.toString()
+        if (TextUtils.isEmpty(selectAddress)){
+            XToast.warning(this,"请选择地址").show()
+            return
+        }else if (TextUtils.isEmpty(contact)){
+            XToast.warning(this,"联系人为空").show()
+            return
+        }else if (TextUtils.isEmpty(phone)){
+            XToast.warning(this,"手机号为空").show()
+            return
+        }else if (!mBinding.include.boxManBottomSelect.isChecked && !mBinding.include.boxMissBottomSelect.isChecked){
+            XToast.warning(this,"性别为空").show()
+            return
+        }
+        val mSex: String = if (mBinding.include.boxManBottomSelect.isChecked) "男士" else "女士"
+        val address = Address(1,selectAddress,contact,phone,mSex,mLatLng.latitude,mLatLng.longitude)
+        val addressViewModel = AddressViewModel(this)
+        //放入数据库
+        addressViewModel.addAddress(address)
+        finish()
     }
 
     fun gone(){
@@ -194,15 +241,24 @@ class SelectActivity: BaseActivity() {
         }
     }
 
-    fun complete(){
-        val hashMap = HashMap<String, Any>()
-        hashMap["address"] = address
-        hashMap["latLng"] = mLatLng
-        //把数据传到EditActivity去，使用LiveDataBus
-        LiveDataBus.get().with("EditActivity").setStickyData(hashMap)
-        mIntent.setClass(this,EditActivity::class.java)
-        startActivity(mIntent)
-        finish()
+    private fun complete(){
+        if (type == 1){
+            val hashMap = HashMap<String, Any>()
+            hashMap["address"] = address
+            hashMap["latLng"] = mLatLng
+            //把数据传到EditActivity去，使用LiveDataBus
+            LiveDataBus.get().with("EditActivity").setStickyData(hashMap)
+            finish()
+        }else{
+            //保存地址页面
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED){
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                mBinding.include.apply {
+                    tvAddressBottomSelect.text = address
+                    mBinding.include.boxMissBottomSelect.isChecked = true
+                }
+            }
+        }
     }
 
     override fun onResume() {
